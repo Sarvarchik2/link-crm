@@ -40,11 +40,32 @@ const Sidebar = ({ isDrawer }) => {
 
   if (isDrawer) {
     return (
-      <aside className="drawer-sidebar">
+      <aside className="sidebar-menu">
         <ul>
-          <li>Дэшборд</li>
-          <li>Техники</li>
-          <li>Клиенты</li>
+          <li className={location.pathname === '/dashboard' ? 'active' : ''}>
+            <Link to="/dashboard">
+              <FaThLarge className="menu-icon" />
+              Дэшборд
+            </Link>
+          </li>
+          <li className={location.pathname === '/techniques' ? 'active' : ''}>
+            <Link to="/techniques">
+              <FaRegFileAlt className="menu-icon" />
+              Техники
+            </Link>
+          </li>
+          <li className={location.pathname.startsWith('/clients') ? 'active' : ''}>
+            <Link to="/clients">
+              <FaUsers className="menu-icon" />
+              Клиенты
+            </Link>
+          </li>
+          <li className={location.pathname.startsWith('/rental') ? 'active' : ''}>
+            <Link to="/rental">
+              <FaRegCalendarAlt className="menu-icon" />
+              Аренда
+            </Link>
+          </li>
         </ul>
       </aside>
     );

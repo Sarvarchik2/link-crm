@@ -5,6 +5,7 @@
     justify-content: end;
     align-items: center;
     width: 100%;
+  margin-top: 25px;
     padding: 10px 0; /* Вертикальные отступы для навбара */
   }
   
@@ -122,6 +123,7 @@
   color: #1a2138;
   flex: 1;
   text-align: center;
+  width: 100px;
 }
 
 /* Drawer (мобильное меню) */

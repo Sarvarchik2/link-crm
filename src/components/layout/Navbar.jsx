@@ -1,6 +1,7 @@
 // src/components/layout/Navbar.jsx
 import React, { useState } from 'react';
 import './Navbar.css'; // Подключаем стили
+import Logo from '../../assets/logo.png'
 import { FaSearch, FaRegBell, FaChevronDown, FaBars, FaTimes } from 'react-icons/fa';
 import Sidebar from './Sidebar';
 import { useUser } from '../../context/UserContext';
@@ -23,7 +24,7 @@ const Navbar = () => {
       {/* Мобильный Drawer */}
       <div className={`mobile-drawer${drawerOpen ? ' open' : ''}`}>
         <div className="drawer-header">
-          <span className="drawer-logo">LOGO</span>
+          <img src={Logo} alt="logo" className="navbar-logo" />
           <button className="drawer-close" onClick={() => setDrawerOpen(false)}><FaTimes /></button>
         </div>
         <Sidebar isDrawer />
@@ -45,14 +46,13 @@ const Navbar = () => {
       {drawerOpen && <div className="drawer-backdrop" onClick={() => setDrawerOpen(false)}></div>}
 
       <nav className="navbar-container">
-        {/* Бургер-меню только на мобильных */}
         <button className="burger-btn" onClick={() => setDrawerOpen(true)}>
           <FaBars />
         </button>
         {/* Поиск слева на десктопе */}
 
         {/* Лого по центру */}
-        <span className="navbar-logo">LOGO</span>
+        <img src={Logo} alt="logo" className="navbar-logo" />
         {/* Правая часть: скрыта на мобилках */}
         <div className="navbar-controls">
           <button className="control-btn notification-btn">
