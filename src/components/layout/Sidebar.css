@@ -1,0 +1,289 @@
+/* src/components/layout/Sidebar.css */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  height: 100vh;
+  width: var(--sidebar-width);
+  background-color: #f7f8fa; /* Светлый фон как на скриншоте */
+  color: #333;
+  padding: 20px;
+  border-right: 1px solid #e0e0e0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch; /* Растягиваем элементы по ширине */
+  flex-shrink: 0;
+  overflow-y: auto; /* Прокрутка, если контента много */
+  justify-content: flex-start; /* Распределяем пространство между меню и нижней частью */
+  z-index: 100;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: start
+;
+  margin-bottom: 30px;
+}
+
+.sidebar-logo {
+  color: #fff;
+  width: 140px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+.sidebar-logo img {
+  width: 100%;
+
+}
+
+.logo-placeholder {
+  /* Стили для вашего логотипа (можно заменить на img тег) */
+  background-color: #6780f4;
+  width: 50px;
+  height: 50px;
+  border-radius: 12px;
+}
+
+.sidebar-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-menu li {
+  margin-bottom: 10px;
+}
+
+.sidebar-menu li a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 15px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #555;
+  transition: background-color 0.2s, color 0.2s;
+  font-size: 18px;
+}
+
+.sidebar-menu li a:hover,
+.sidebar-menu li a.active {
+  background-color: #e9ecef; /* Светлый фон при наведении/активном состоянии */
+  color: #333;
+}
+
+.sidebar-menu li .menu-icon {
+  font-size: 18px;
+  transition: color 0.2s;
+}
+
+.sidebar-menu li.active a {
+  background: rgba(83, 187, 140, 0.32);
+  color: #53bb8c;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.sidebar-menu li.active .menu-icon {
+  color: #53bb8c;
+  font-size: 20px;
+}
+
+/* Стили для нижней части сайдбара */
+.sidebar-bottom {
+  padding: 20px 0;
+  margin-top: auto;
+}
+
+.support-section {
+  margin-bottom: 20px;
+  text-align: center;
+  padding: 0;
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.support-button {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 17px 20px;
+  font-size: 17px;
+  background-color: #53bb8c; /* Синий цвет кнопки */
+  color: white;
+  border: none;
+  border-radius: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.support-button:hover {
+  background-color: #3769d9;
+}
+
+.button-icon {
+  font-size: 1em;
+}
+
+/* NEW: Style for the logout button */
+.logout-button-style {
+  width: 100%; /* Make it span full width */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none; /* In case it was an a tag before */
+  color: #777;
+  padding: 10px 15px;
+  border-radius: 10px;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  background: none; /* Important to override default button background */
+  border: none; /* Important to override default button border */
+  cursor: pointer; /* Ensure it looks clickable */
+  font-size: 1em; /* Inherit font size or set explicitly */
+  font-family: inherit; /* Inherit font family */
+  text-align: left; /* Align text to left */
+}
+
+.logout-button-style:hover {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.logout-icon {
+  font-size: 1.2em;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 80px;
+    padding: 10px;
+    align-items: center;
+  }
+
+  .sidebar-header,
+  .sidebar-bottom .support-section .support-image, /* This might be redundant if no image */
+  .sidebar-bottom .support-section span,
+  .sidebar-bottom .logout-section span {
+    display: none; /* Скрываем текст на маленьких экранах */
+  }
+
+  .sidebar-logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+  }
+
+  .sidebar-menu li a {
+    justify-content: center;
+    padding: 10px;
+  }
+
+  .sidebar-menu li a span {
+    display: none;
+  }
+
+  .menu-icon,
+  .logout-icon,
+  .button-icon {
+    font-size: 1.5em;
+  }
+
+  .support-button {
+    padding: 8px;
+  }
+
+  .logout-button-style { /* Adjust for small screens */
+      padding: 10px; /* Reduced padding */
+      justify-content: center; /* Center icon */
+  }
+  .logout-button-style span {
+      display: none; /* Hide text */
+  }
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    position: static;
+    width: 100%;
+    height: auto;
+  }
+}
+
+.drawer-sidebar {
+background: none !important;
+border: none !important;
+width: 100% !important;
+min-width: 0 !important;
+box-shadow: none !important;
+padding: 0 !important;
+height: auto !important;
+flex-shrink: 0 !important;
+display: block !important;
+}
+.drawer-sidebar .sidebar-header {
+display: none;
+}
+.drawer-sidebar .sidebar-menu ul {
+padding: 0;
+}
+.drawer-sidebar .sidebar-menu li {
+margin-bottom: 0;
+}
+.drawer-sidebar .sidebar-menu li a {
+padding: 18px 24px;
+font-size: 20px;
+border-radius: 0;
+border-bottom: 1px solid #f0f0f0;
+color: #222;
+}
+.drawer-sidebar .sidebar-menu li.active a {
+background: rgba(83, 187, 140, 0.32);
+color: #53bb8c;
+font-weight: 600;
+}
+.drawer-sidebar .sidebar-bottom {
+padding: 16px 0 0 0;
+}
+.drawer-sidebar .support-section {
+margin-bottom: 12px;
+}
+.drawer-sidebar .support-button {
+font-size: 18px;
+padding: 14px 20px;
+}
+.drawer-sidebar .logout-button-style { /* Use the new class here */
+font-size: 18px;
+padding: 14px 20px;
+}
+.drawer-sidebar .sidebar-menu li a span,
+.drawer-sidebar .sidebar-bottom .support-section span,
+.drawer-sidebar .sidebar-bottom .logout-button-style span { /* Use the new class here */
+display: inline !important;
+}
+.drawer-sidebar .sidebar-header,
+.drawer-sidebar .sidebar-bottom .support-section .support-image {
+display: none !important;
+}
+
+.drawer-sidebar .sidebar-menu li a span,
+.drawer-sidebar .sidebar-menu li a,
+.drawer-sidebar .sidebar-menu li,
+.drawer-sidebar .sidebar-menu ul {
+display: block !important;
+visibility: visible !important;
+opacity: 1 !important;
+color: #222 !important;
+}
+
+/* New: Modal overlay show state */
+.modal-overlay.show {
+  opacity: 1;
+  visibility: visible;
+}
