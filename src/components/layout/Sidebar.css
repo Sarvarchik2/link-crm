@@ -287,3 +287,9 @@ color: #222 !important;
   opacity: 1;
   visibility: visible;
 }
+
+@media (max-width: 600px) {
+  .sidebar-menu ul {
+    padding: 50px;
+  }
+  }

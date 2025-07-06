@@ -715,7 +715,8 @@
 @media (max-width: 600px) {
   .add-technique-modal {
     max-height: 80vh;
-    padding: 8px 2px 8px 2px;
+    box-sizing: border-box;
+    padding: 28px 20px 28px 20px;
   }
   .modal-title {
     font-size: 20px;
