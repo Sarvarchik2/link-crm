@@ -166,7 +166,9 @@
     padding: 10px;
     align-items: center;
   }
-
+  .sidebar-menu ul{
+    padding: 20px;
+  }
   .sidebar-header,
   .sidebar-bottom .support-section .support-image, /* This might be redundant if no image */
   .sidebar-bottom .support-section span,

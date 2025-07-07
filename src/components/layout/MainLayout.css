@@ -15,7 +15,7 @@
   margin: 0 auto;
   box-sizing: border-box;
   background-color: #F4F9FD;
-  margin-left: calc(var(--sidebar-width) + 24px);
+  margin-left: calc(var(--sidebar-width));
 }
 
 @media (max-width: 900px) {

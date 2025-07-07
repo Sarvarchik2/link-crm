@@ -127,6 +127,7 @@
   max-width: 500px;
   padding: 24px;
   position: relative;
+  box-sizing: border-box;
   box-shadow: 0 10px 30px rgba(0,0,0,0.15);
   animation: slideUp 0.3s ease;
 }

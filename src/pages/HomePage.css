@@ -104,7 +104,7 @@
   .dashboard-card, .pie-card {
     border-radius: 18px;
     box-shadow: 0 2px 12px rgba(56,139,255,0.08);
-    padding: 16px 10px;
+    padding: 26px 20px;
     min-height: 90px;
     transition: box-shadow 0.2s;
   }
@@ -166,7 +166,7 @@
     margin-bottom: 2px;
   }
   .dashboard-card {
-    padding: 12px 8px 10px 8px;
+    padding: 22px 18px;
     min-width: 0;
     min-height: 80px;
     border-radius: 16px;
@@ -176,8 +176,15 @@
     gap: 10px;
   }
   .pie-card {
-    padding: 8px 2px 4px 2px;
+    padding: 20px 15px;
     border-radius: 16px;
+  }
+  .pie-section{
+    width: 100%;
+    max-width: 100%;
+  }
+  .pie-legend-item{
+    font-size: 18px;
   }
   .pie-title {
     font-size: 16px;

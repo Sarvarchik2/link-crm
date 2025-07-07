@@ -4,62 +4,192 @@ import './RentalPage.css';
 
 const getToday = () => new Date().toISOString().slice(0, 10);
 
-function RentalModal({ open, selected, onClose, onSubmit }) {
+// Примерные массивы клиентов и техники
+const clientsList = [
+  { id: 1, avatar: 'https://placehold.co/400', name: 'Иванов Иван', phone: '+998 90 123 45 67' },
+  { id: 2, avatar: 'https://placehold.co/400', name: 'Петров Петр', phone: '+998 91 987 65 43' },
+  { id: 3, avatar: 'https://placehold.co/400', name: 'Сидоров Сидор', phone: '+998 93 555 55 55' },
+];
+const equipmentList = [
+  { id: 1, title: 'Canon EOS R5', category: { name: 'Фотоаппараты' } },
+  { id: 2, title: 'Sony A7 III', category: { name: 'Фотоаппараты' } },
+  { id: 3, title: 'Sigma 24-70mm', category: { name: 'Объективы' } },
+];
+
+function RentalModal({ open, selected, onClose, onSubmit, clients, equipmentList }) {
   const [quantity, setQuantity] = useState(selected?.quantity || 1);
   const [dateStart, setDateStart] = useState(selected?.dateStart || getToday());
   const [dateEnd, setDateEnd] = useState(selected?.dateEnd || '');
+  const [status, setStatus] = useState(selected?.status || 'available');
+
+  // Для поиска и выбора пользователя
+  const [userSearch, setUserSearch] = useState('');
+  const [userDropdown, setUserDropdown] = useState(false);
+  const [user, setUser] = useState(selected?.client || null);
+
+  // Для поиска и выбора техники
+  const [equipmentSearch, setEquipmentSearch] = useState('');
+  const [equipmentDropdown, setEquipmentDropdown] = useState(false);
+  const [equipment, setEquipment] = useState(selected?.title ? { title: selected.title, category: selected.category } : null);
 
   useEffect(() => {
     if (selected) {
       setQuantity(selected.quantity || 1);
       setDateStart(selected.dateStart || getToday());
       setDateEnd(selected.dateEnd || '');
+      setStatus(selected.status || 'available');
+      setUser(selected.client || null);
+      setEquipment(selected.title ? { title: selected.title, category: selected.category } : null);
+      setUserSearch('');
+      setEquipmentSearch('');
     }
   }, [selected]);
 
   if (!open) return null;
-//s
+
   const handleSubmit = () => {
     const newData = {
       ...selected,
       quantity,
       dateStart,
-      dateEnd
+      dateEnd,
+      status,
+      client: user || selected?.client,
+      title: equipment?.title || selected?.title,
+      category: equipment?.category || selected?.category,
     };
-
     if (!selected.isEdit) {
-      newData.id = Date.now(); // уникальный id
+      newData.id = Date.now();
     }
-
     onSubmit(newData);
   };
 
+  // Фильтрация пользователей и техники по поиску
+  const filteredUsers = clients.filter(u =>
+    u.name.toLowerCase().includes(userSearch.toLowerCase()) ||
+    u.phone.includes(userSearch)
+  );
+  const filteredEquipment = equipmentList.filter(eq =>
+    eq.title.toLowerCase().includes(equipmentSearch.toLowerCase())
+  );
+
   return (
-      <div className="modal-overlay">
-        <div className="modal-content">
-          <button onClick={onClose} className="modal-close"><FaTimes /></button>
-          <h3>{selected.isEdit ? 'Редактировать клиента' : 'Добавить клиента'}</h3>
+    <div className={`modal-overlay${open ? ' show' : ''}`}>
+      <div className="modal-content">
+        <button onClick={onClose} className="modal-close"><FaTimes /></button>
+        <h3>{selected.isEdit ? 'Редактировать аренду' : 'Добавить аренду'}</h3>
 
-          <div className="modal-field">
-            <label>Количество</label>
-            <input type="number" min={1} value={quantity} onChange={e => setQuantity(Number(e.target.value))} />
-          </div>
-
-          <div className="modal-field">
-            <label>Дата начала</label>
-            <input type="date" value={dateStart} onChange={e => setDateStart(e.target.value)} />
-          </div>
-
-          <div className="modal-field">
-            <label>Дата конца</label>
-            <input type="date" value={dateEnd} onChange={e => setDateEnd(e.target.value)} />
-          </div>
-
-          <button className="modal-submit-btn" onClick={handleSubmit}>
-            {selected.isEdit ? 'Сохранить' : 'Добавить'}
-          </button>
+        {/* Выбор пользователя */}
+        <div className="modal-field">
+          <label>Пользователь</label>
+          <input
+            type="text"
+            placeholder="Поиск пользователя..."
+            value={user ? user.name : userSearch}
+            onChange={e => {
+              setUserSearch(e.target.value);
+              setUser(null);
+              setUserDropdown(true);
+            }}
+            onFocus={() => setUserDropdown(true)}
+            autoComplete="off"
+          />
+          {userDropdown && !user && filteredUsers.length > 0 && (
+            <div className="dropdown-list" style={{border: '1px solid #eee', borderRadius: 8, background: '#fff', position: 'absolute', zIndex: 1001, width: '90%', maxHeight: 150, overflowY: 'auto'}}>
+              {filteredUsers.map(u => (
+                <div
+                  key={u.id}
+                  style={{padding: 8, cursor: 'pointer'}}
+                  onClick={() => {
+                    setUser(u);
+                    setUserDropdown(false);
+                  }}
+                >
+                  <img src={u.avatar} alt="avatar" style={{width: 24, height: 24, borderRadius: '50%', marginRight: 8, verticalAlign: 'middle'}} />
+                  {u.name} <span style={{color: '#888', fontSize: 12}}>{u.phone}</span>
+                </div>
+              ))}
+            </div>
+          )}
+          {user && (
+            <div style={{marginTop: 6, display: 'flex', alignItems: 'center', gap: 8}}>
+              <img src={user.avatar} alt="avatar" style={{width: 28, height: 28, borderRadius: '50%'}} />
+              <span>{user.name}</span>
+              <span style={{color: '#888', fontSize: 13}}>{user.phone}</span>
+              <button style={{marginLeft: 8, background: 'none', border: 'none', color: '#888', cursor: 'pointer'}} onClick={() => { setUser(null); setUserSearch(''); }}>×</button>
+            </div>
+          )}
         </div>
+
+        {/* Выбор техники */}
+        <div className="modal-field">
+          <label>Техника</label>
+          <input
+            type="text"
+            placeholder="Поиск техники..."
+            value={equipment ? equipment.title : equipmentSearch}
+            onChange={e => {
+              setEquipmentSearch(e.target.value);
+              setEquipment(null);
+              setEquipmentDropdown(true);
+            }}
+            onFocus={() => setEquipmentDropdown(true)}
+            autoComplete="off"
+          />
+          {equipmentDropdown && !equipment && filteredEquipment.length > 0 && (
+            <div className="dropdown-list" style={{border: '1px solid #eee', borderRadius: 8, background: '#fff', position: 'absolute', zIndex: 1001, width: '90%', maxHeight: 150, overflowY: 'auto'}}>
+              {filteredEquipment.map(eq => (
+                <div
+                  key={eq.id}
+                  style={{padding: 8, cursor: 'pointer'}}
+                  onClick={() => {
+                    setEquipment(eq);
+                    setEquipmentDropdown(false);
+                  }}
+                >
+                  {eq.title} <span style={{color: '#888', fontSize: 12}}>{eq.category?.name}</span>
+                </div>
+              ))}
+            </div>
+          )}
+          {equipment && (
+            <div style={{marginTop: 6, display: 'flex', alignItems: 'center', gap: 8}}>
+              <span>{equipment.title}</span>
+              <span style={{color: '#888', fontSize: 13}}>{equipment.category?.name}</span>
+              <button style={{marginLeft: 8, background: 'none', border: 'none', color: '#888', cursor: 'pointer'}} onClick={() => { setEquipment(null); setEquipmentSearch(''); }}>×</button>
+            </div>
+          )}
+        </div>
+
+        {/* Выбор статуса */}
+        <div className="modal-field">
+          <label>Статус</label>
+          <select value={status} onChange={e => setStatus(e.target.value)}>
+            <option value="available">Свободно</option>
+            <option value="busy">Занято</option>
+          </select>
+        </div>
+
+        <div className="modal-field">
+          <label>Количество</label>
+          <input type="number" min={1} value={quantity} onChange={e => setQuantity(Number(e.target.value))} />
+        </div>
+
+        <div className="modal-field">
+          <label>Дата начала</label>
+          <input type="date" value={dateStart} onChange={e => setDateStart(e.target.value)} />
+        </div>
+
+        <div className="modal-field">
+          <label>Дата конца</label>
+          <input type="date" value={dateEnd} onChange={e => setDateEnd(e.target.value)} />
+        </div>
+
+        <button className="modal-submit-btn" onClick={handleSubmit}>
+          {selected.isEdit ? 'Сохранить' : 'Добавить'}
+        </button>
       </div>
+    </div>
   );
 }
 
@@ -75,7 +205,7 @@ const RentalPage = () => {
     setEquipment([
       {
         id: 1,
-        client: { avatar: 'https://placehold.co/400', name: 'Иванов Иван', phone: '+998 90 123 45 67' },
+        client: clientsList[0],
         title: 'Canon EOS R5',
         category: { name: 'Фотоаппараты' },
         status: 'available',
@@ -83,7 +213,7 @@ const RentalPage = () => {
       },
       {
         id: 2,
-        client: { avatar: 'https://placehold.co/400', name: 'Петров Петр', phone: '+998 91 987 65 43' },
+        client: clientsList[1],
         title: 'Sony A7 III',
         category: { name: 'Фотоаппараты' },
         status: 'busy',
@@ -194,6 +324,8 @@ const RentalPage = () => {
             selected={selected}
             onClose={() => setModalOpen(false)}
             onSubmit={handleCreateRental}
+            clients={clientsList}
+            equipmentList={equipmentList}
         />
       </div>
   );

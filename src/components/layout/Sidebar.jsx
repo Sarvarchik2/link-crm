@@ -13,11 +13,13 @@ import {
 } from 'react-icons/fa';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Modal from '../Modal/Modal'; // Import the new Modal component
+import ChatModal from '../Modal/ChatModal';
 
 const Sidebar = ({ isDrawer }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [showLogoutModal, setShowLogoutModal] = useState(false); // State for modal visibility
+  const [showSupportChat, setShowSupportChat] = useState(false);
 
   const handleLogoutConfirm = () => {
     // Clear local storage
@@ -110,7 +112,7 @@ const Sidebar = ({ isDrawer }) => {
         </nav>
         <div className="sidebar-bottom">
           <div className="support-section">
-            <button className="support-button">
+            <button className="support-button" onClick={() => setShowSupportChat(true)}>
               <FaQuestionCircle className="button-icon" />
               <span>Support</span>
             </button>
@@ -125,23 +127,7 @@ const Sidebar = ({ isDrawer }) => {
               <span>Выйти</span>
             </button>
             {/* Temporary test button */}
-            <button
-              onClick={() => {
-                console.log('Test button clicked');
-                setShowLogoutModal(true);
-              }}
-              style={{
-                marginTop: '10px',
-                padding: '8px 12px',
-                backgroundColor: '#ff6b6b',
-                color: 'white',
-                border: 'none',
-                borderRadius: '5px',
-                cursor: 'pointer'
-              }}
-            >
-              Test Modal
-            </button>
+          
           </div>
         </div>
       </aside>
@@ -156,6 +142,8 @@ const Sidebar = ({ isDrawer }) => {
         confirmText="Выйти"
         cancelText="Отмена"
       />
+      {/* Support Chat Modal */}
+      <ChatModal show={showSupportChat} onClose={() => setShowSupportChat(false)} />
     </>
   );
 };

@@ -92,9 +92,8 @@
 .modal-footer {
   display: flex;
   gap: 12px;
-  padding: 20px 24px 24px 24px;
+  padding-top: 10px;
   border-top: 1px solid #eee;
-  background-color: #fafafa;
 }
 
 .modal-btn {
